@@ -1,7 +1,16 @@
+from typing import List
+
 import numpy as np
 
 from scattertext import CohensD
 
+
+def filter_candidates(candidates: List[str]) -> List[str]:
+    filtered_candidates: List[str] = []
+    for i, candidate in enumerate(candidates):
+        if not any(candidate in other_candidate for other_candidate in candidates[i + 1:] + filtered_candidates):
+            filtered_candidates.append(candidate)
+    return filtered_candidates
 
 class SquareGetter:
     def __init__(self, corpus):
@@ -25,10 +34,8 @@ class SquareGetter:
             candidates = list(
                 self._get_category_scores(cat)
             )[:int(percentage_of_candidate_list_to_consider * num_squares / n_cats)]
-            filtered_candidates = []
-            for i, candidate in enumerate(candidates):
-                if not any(candidate in other_candidate for other_candidate in candidates[i + 1:]):
-                    filtered_candidates.append(candidate)
+
+            filtered_candidates = filter_candidates(candidates)
             if shuffle:
                 np.random.shuffle(filtered_candidates)
             scores[cat] = filtered_candidates

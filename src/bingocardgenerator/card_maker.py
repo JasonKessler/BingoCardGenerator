@@ -232,7 +232,7 @@ def write_card(
     card_content = f'''
     <body translate="no">
       <div class="main-content">
-      <div class="title"> <span>{card_title}</span><br><span>{card_subtitle}</span></div>
+      <div class="title"> <span>{card_title}</span><br/><span>{card_subtitle}</span></div>
       <div class="bingo-card">
     '''
     for square in squares:
